@@ -1,0 +1,51 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="38">
+            <item index="0" class="java.lang.String" itemvalue="distro" />
+            <item index="1" class="java.lang.String" itemvalue="html5lib" />
+            <item index="2" class="java.lang.String" itemvalue="pycurl" />
+            <item index="3" class="java.lang.String" itemvalue="pyalpm" />
+            <item index="4" class="java.lang.String" itemvalue="python-dateutil" />
+            <item index="5" class="java.lang.String" itemvalue="Reflector" />
+            <item index="6" class="java.lang.String" itemvalue="pycups" />
+            <item index="7" class="java.lang.String" itemvalue="pycairo" />
+            <item index="8" class="java.lang.String" itemvalue="PyQt5-sip" />
+            <item index="9" class="java.lang.String" itemvalue="PyGObject" />
+            <item index="10" class="java.lang.String" itemvalue="feedparser" />
+            <item index="11" class="java.lang.String" itemvalue="cupshelpers" />
+            <item index="12" class="java.lang.String" itemvalue="appdirs" />
+            <item index="13" class="java.lang.String" itemvalue="PyQt5" />
+            <item index="14" class="java.lang.String" itemvalue="pysmbc" />
+            <item index="15" class="java.lang.String" itemvalue="louis" />
+            <item index="16" class="java.lang.String" itemvalue="urllib3" />
+            <item index="17" class="java.lang.String" itemvalue="pyparsing" />
+            <item index="18" class="java.lang.String" itemvalue="pytoml" />
+            <item index="19" class="java.lang.String" itemvalue="packaging" />
+            <item index="20" class="java.lang.String" itemvalue="team" />
+            <item index="21" class="java.lang.String" itemvalue="psutil" />
+            <item index="22" class="java.lang.String" itemvalue="aurman" />
+            <item index="23" class="java.lang.String" itemvalue="lockfile" />
+            <item index="24" class="java.lang.String" itemvalue="pyxdg" />
+            <item index="25" class="java.lang.String" itemvalue="termcolor" />
+            <item index="26" class="java.lang.String" itemvalue="regex" />
+            <item index="27" class="java.lang.String" itemvalue="btrfsutil" />
+            <item index="28" class="java.lang.String" itemvalue="colorama" />
+            <item index="29" class="java.lang.String" itemvalue="retrying" />
+            <item index="30" class="java.lang.String" itemvalue="virtualenv" />
+            <item index="31" class="java.lang.String" itemvalue="isc" />
+            <item index="32" class="java.lang.String" itemvalue="distlib" />
+            <item index="33" class="java.lang.String" itemvalue="progress" />
+            <item index="34" class="java.lang.String" itemvalue="CacheControl" />
+            <item index="35" class="java.lang.String" itemvalue="msgpack" />
+            <item index="36" class="java.lang.String" itemvalue="webencodings" />
+            <item index="37" class="java.lang.String" itemvalue="lensfun" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

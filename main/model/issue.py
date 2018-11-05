@@ -2,15 +2,17 @@
 
 from __future__ import absolute_import, print_function
 
-import logging
 from datetime import datetime
+
+import logging
 from google.appengine.ext import ndb
 
-# from model import Serie
+import model
+from api import fields
 from model.serie import Serie
 
 
-class Issue(ndb.Model):
+class Issue(model.Base):
     """
     Single comic issue model
     """
@@ -24,3 +26,17 @@ class Issue(ndb.Model):
     url = ndb.StringProperty(indexed=False, default="#")
     summary = ndb.StringProperty(indexed=False, repeated=True)
     logger = logging.getLogger(__name__)
+
+    FIELDS = {
+        'title': fields.String,
+        'subtitle': fields.String,
+        'serie': fields.Key,
+        'reprint': fields.String,
+        'date': fields.DateTime,
+        'price': fields.String,
+        'image': fields.String,
+        'url': fields.String,
+        'summary': fields.List(fields.String)
+    }
+
+    FIELDS.update(model.Base.FIELDS)

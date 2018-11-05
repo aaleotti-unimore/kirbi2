@@ -4,7 +4,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="39">
+          <list size="43">
             <item index="0" class="java.lang.String" itemvalue="distro" />
             <item index="1" class="java.lang.String" itemvalue="html5lib" />
             <item index="2" class="java.lang.String" itemvalue="pycurl" />
@@ -44,6 +44,10 @@
             <item index="36" class="java.lang.String" itemvalue="webencodings" />
             <item index="37" class="java.lang.String" itemvalue="lensfun" />
             <item index="38" class="java.lang.String" itemvalue="google" />
+            <item index="39" class="java.lang.String" itemvalue="flask_wtf" />
+            <item index="40" class="java.lang.String" itemvalue="flask_login" />
+            <item index="41" class="java.lang.String" itemvalue="flask_oauthlib" />
+            <item index="42" class="java.lang.String" itemvalue="flask_restful" />
           </list>
         </value>
       </option>

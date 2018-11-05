@@ -1,20 +1,10 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
-    <inspection_tool class="PyCompatibilityInspection" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ourVersions">
-        <value>
-          <list size="2">
-            <item index="0" class="java.lang.String" itemvalue="2.7" />
-            <item index="1" class="java.lang.String" itemvalue="3.7" />
-          </list>
-        </value>
-      </option>
-    </inspection_tool>
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="38">
+          <list size="39">
             <item index="0" class="java.lang.String" itemvalue="distro" />
             <item index="1" class="java.lang.String" itemvalue="html5lib" />
             <item index="2" class="java.lang.String" itemvalue="pycurl" />
@@ -53,8 +43,16 @@
             <item index="35" class="java.lang.String" itemvalue="msgpack" />
             <item index="36" class="java.lang.String" itemvalue="webencodings" />
             <item index="37" class="java.lang.String" itemvalue="lensfun" />
+            <item index="38" class="java.lang.String" itemvalue="google" />
           </list>
         </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E111" />
+        </list>
       </option>
     </inspection_tool>
   </profile>

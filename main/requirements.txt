@@ -41,3 +41,5 @@ termcolor==1.1.0
 urllib3==1.24
 virtualenv==16.1.0
 webencodings==0.5.1
+beautifulsoup4==4.6.3
+lxml==4.2.5

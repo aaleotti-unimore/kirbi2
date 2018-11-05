@@ -7,6 +7,6 @@ from google.appengine.ext import ndb
 
 class Serie(ndb.Model):
     """
-    Comic series. identifies a group of issues
+    Comic serie. identifies a group of issues
     """
     title = ndb.StringProperty(indexed=True)

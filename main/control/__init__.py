@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from .user import *
-
+from .page_parser import *
 from .admin import *
 from .error import *
 from .feedback import *

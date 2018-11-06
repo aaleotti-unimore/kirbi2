@@ -12,12 +12,12 @@ import httplib
 import logging
 import traceback
 import urllib2
-import flask
 from google.appengine.ext import ndb
 
 from bs4 import BeautifulSoup
 from model import Issue, Serie
-from main import app
+
+BASE_URL = 'http://comics.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d'
 
 MIN_PAGE = 1
 MAX_PAGE = 10
@@ -30,10 +30,16 @@ class Parser:
     """
     logger = logging.getLogger(__name__)
     urls_to_load = []
+    min_page = MIN_PAGE
+    max_page = MAX_PAGE
 
-    def __init__(self):
-        for i in range(MIN_PAGE, MAX_PAGE):
-            self.urls_to_load.append('http://comics.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d' % i)
+    def __init__(self, min_page=MIN_PAGE, max_page=MAX_PAGE):
+        if (min_page is not None) and (max_page is not None):
+            self.min_page = min_page
+            self.max_page = max_page
+
+        for i in range(self.min_page, self.max_page):
+            self.urls_to_load.append(BASE_URL % i)
 
     def parse(self):
         """
@@ -113,7 +119,7 @@ class Parser:
 
         :param issue: issue
         """
-        url = issue['url']
+        url = issue.url
         summary = []
         try:
             opened_url = urllib2.urlopen(url, None, 145)
@@ -133,7 +139,7 @@ class Parser:
             self.logger.error('generic exception: ' + traceback.format_exc())
 
         try:
-            issue['summary'] = summary
+            issue.summary = summary
             issue.put()
             return True
         except Exception:
@@ -191,15 +197,3 @@ class Parser:
         for item in items:
             item.key.delete()
         self.logger.debug("Deleted %d items" % len(items))
-
-
-@app.route('/admin/populate/', methods=['GET'])
-def populateDatabase():
-    parser = Parser()
-    issues = parser.parse()
-    print(issues)
-    for issue in issues:
-        parser.save_issue(issue)
-
-    print("done")
-    return flask.redirect(flask.url_for('welcome'))

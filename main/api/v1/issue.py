@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from __future__ import absolute_import
 
 import auth
+import flask
 import flask_restful
 import model
 from api import helpers
@@ -23,6 +24,7 @@ class PopulateIssuesAPI(flask_restful.Resource):
 
         issue_dbs, cursors = model.Issue.get_dbs(prev_cursor=True)
         return helpers.make_response(issue_dbs, model.Issue.FIELDS, cursors)
+
 
 @api_v1.resource('/admin/issue/<string:title>/', endpoint='api.admin.issue')
 class IssueAPI(flask_restful.Resource):
@@ -46,4 +48,18 @@ class IssueSummaryAPI(flask_restful.Resource):
             parser = Parser()
             parser.parse_issue_summary(issue)
 
-        return helpers.make_response(issue, model.Issue.FIELDS)
+        return flask.jsonify({
+            'result': issue.summary,
+            'status': 'success',
+        })
+
+
+@api_v1.resource('/admin/issue/<string:title>/image/', endpoint='api.admin.issue.image')
+class IssueImageAPI(flask_restful.Resource):
+    @auth.admin_required
+    def get(self, title):
+        issue = Issue.get_by_id(title)
+        if not issue:
+            helpers.make_not_found_exception('Issue %s not found' % title)
+
+        return flask.redirect(issue.image)

@@ -12,6 +12,10 @@ from control import Parser
 from main import api_v1
 from model import Issue
 
+from flask import Flask
+
+app = Flask(__name__)
+
 
 @api_v1.resource('/admin/populate_issues/', endpoint='api.admin.populate_issues')
 class PopulateIssuesAPI(flask_restful.Resource):
@@ -33,7 +37,7 @@ class IssueAPI(flask_restful.Resource):
         issue = Issue.get_by_id(title)
         if not issue:
             helpers.make_not_found_exception('Issue %s not found' % title)
-
+        app.logger.info("issue found: %s" % title)
         return helpers.make_response(issue, model.Issue.FIELDS)
 
 

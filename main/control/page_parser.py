@@ -13,15 +13,17 @@ import logging
 import traceback
 import urllib2
 from google.appengine.ext import ndb
-
 from bs4 import BeautifulSoup
 from model import Issue, Serie
+from flask import Flask
 
 BASE_URL = 'http://comics.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d'
 
 MIN_PAGE = 1
 MAX_PAGE = 10
 MAX_PROCESSES = 2
+
+app = Flask(__name__)
 
 
 class Parser:
@@ -63,15 +65,15 @@ class Parser:
 
         try:
             data = urllib2.urlopen(url).read()
-            self.logger.debug('Fetched %s from %s' % (len(data), url))
+            app.logger.debug('Fetched %s from %s' % (len(data), url))
             soup = BeautifulSoup(data, 'html.parser')
             issues = soup.find_all('div', attrs={'class': "list-group-item"})  # list of all found comics issues
         except urllib2.HTTPError as e:
-            self.logger.error('HTTPError = ' + str(e.code))
+            app.logger.error('HTTPError = ' + str(e.code))
         except urllib2.URLError as e:
-            self.logger.error('URLError = ' + str(e.reason))
+            app.logger.error('URLError = ' + str(e.reason))
         except httplib.HTTPException as e:
-            self.logger.error('HTTPException' + str(e))
+            app.logger.error('HTTPException' + str(e))
 
         for issue in issues:
             issue_parsed_data = {}
@@ -110,7 +112,7 @@ class Parser:
 
             parsed.append(issue_parsed_data)
 
-        self.logger.debug("Items parsed: %d", len(parsed))
+        app.logger.debug("Items parsed: %d", len(parsed))
         return parsed
 
     def parse_issue_summary(self, issue):
@@ -130,20 +132,20 @@ class Parser:
             summary = stripped_descr[1:]
 
         except urllib2.HTTPError as e:
-            self.logger.error('HTTPError = ' + str(e.code))
+            app.logger.error('HTTPError = ' + str(e.code))
         except urllib2.URLError as e:
-            self.logger.error('URLError = ' + str(e.reason))
+            app.logger.error('URLError = ' + str(e.reason))
         except httplib.HTTPException as e:
-            self.logger.error('HTTPException' + str(e))
+            app.logger.error('HTTPException' + str(e))
         except Exception:
-            self.logger.error('generic exception: ' + traceback.format_exc())
+            app.logger.error('generic exception: ' + traceback.format_exc())
 
         try:
             issue.summary = summary
             issue.put()
             return True
         except Exception:
-            self.logger.error('generic exception: ' + traceback.format_exc())
+            app.logger.error('generic exception: ' + traceback.format_exc())
 
     def save_issue(self, item):
         """
@@ -151,18 +153,18 @@ class Parser:
 
         :param item: parsed issue
         """
-        self.logger.debug("saving the issues")
+        app.logger.debug("saving the issues")
         issue = Issue(id=item['title'])
         issue.title = item['title']
         if 'subtitle' in item:
             if any(word in item['subtitle'] for word in ["variant", "Variant"]):
                 issue.key = ndb.Key(Issue, item['title'] + " variant")
-                self.logger.debug("found variant, new issue id is " + item['title'] + " variant")
+                app.logger.debug("found variant, new issue id is " + item['title'] + " variant")
             issue.subtitle = item['subtitle']
 
         if 'serie' in item:
-            serie = Serie(id=item['serie'].rstrip('1234567890 '), title=item['serie'].rstrip('1234567890 '))
-            serie.put_async()
+            keyname = item['serie'].rstrip('1234567890 ')
+            serie = Serie.get_or_insert(keyname, title=keyname)
             issue.serie = serie.key
 
         if 'reprint' in item:
@@ -186,7 +188,7 @@ class Parser:
             issue.image = item['image'].replace('small_image/200x', 'image')
 
         issue.put_async()
-        self.logger.debug("issue " + issue.title + " saved")
+        app.logger.debug("issue " + issue.title + " saved")
 
     def delete_issue(self, items):
         """
@@ -196,4 +198,4 @@ class Parser:
         """
         for item in items:
             item.key.delete()
-        self.logger.debug("Deleted %d items" % len(items))
+        app.logger.debug("Deleted %d items" % len(items))

@@ -8,3 +8,4 @@ flask_oauthlib
 flask_restful
 webargs
 flask
+lxml

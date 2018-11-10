@@ -15,9 +15,7 @@
 
     .row .panel {
         display: inline-block;
-        margin: .5em;
-        padding: 0;
-        width: 98%;
+    {#margin: .5em;#}{#padding: 0;#}{#width: 98%;#}
     }
 </style>
 # endblock
@@ -33,11 +31,27 @@
 
 # block content
 <div class="container">
-    <div class="row" data-isotope='{ "itemSelector": ".panel", "layoutMode": "fitRows" }'>
+    <div class="row">
         # for issue in issue_dbs
         <div class="panel panel-default">
-            <div class="panel-heading">{{ issue.title }}</div>
-            <div class="panel-body"><img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-responsive"></div>
+            <div class="panel-heading">
+                <h4 class="panel-title">{{ issue.title }}</h4>
+                # if issue.subtitle
+                <h6 class="text-muted">{{ issue.subtitle }}</h6>
+                # endif
+            </div>
+            <div class="panel-body">
+                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-responsive">
+                # if issue.reprint
+                <h5 class="text-muted">{{ issue.reprint }}</h5>
+                # endif
+                # if issue.serie
+                <h5 class="text-muted">{{ issue.serie.get().title }}</h5>
+                # endif
+                # if issue.price
+                <h5 class="text-muted">{{ issue.price }}</h5>
+                # endif
+            </div>
         </div>
         # endfor
     </div>

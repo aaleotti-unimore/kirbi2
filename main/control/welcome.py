@@ -16,9 +16,8 @@ def welcome():
     list_query = Issue.query()
     list_keys = list_query.fetch(keys_only=True)  # maybe put a limit here.
 
-    list_keys = random.sample(list_keys, 10)
+    list_keys = random.sample(list_keys, 20)
     issue_dbs = [list_key.get() for list_key in list_keys]
-
     # issue_dbs = Issue().query().fetch(limit=10)
     return flask.render_template('welcome.html', html_class='welcome', issue_dbs=issue_dbs)
 

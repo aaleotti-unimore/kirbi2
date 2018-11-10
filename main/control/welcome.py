@@ -1,4 +1,5 @@
 # coding: utf-8
+import random
 
 import flask
 
@@ -12,7 +13,13 @@ from model import Issue
 ###############################################################################
 @app.route('/')
 def welcome():
-    issue_dbs = Issue().query().fetch(limit=4)
+    list_query = Issue.query()
+    list_keys = list_query.fetch(keys_only=True)  # maybe put a limit here.
+
+    list_keys = random.sample(list_keys, 10)
+    issue_dbs = [list_key.get() for list_key in list_keys]
+
+    # issue_dbs = Issue().query().fetch(limit=10)
     return flask.render_template('welcome.html', html_class='welcome', issue_dbs=issue_dbs)
 
 

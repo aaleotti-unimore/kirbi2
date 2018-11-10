@@ -1,5 +1,27 @@
 # extends 'base.html'
 
+# block head
+<style>
+    *, *:before, *:after {
+        box-sizing: border-box !important;
+    }
+
+    .row {
+        -moz-column-width: 12em;
+        -webkit-column-width: 12em;
+        -moz-column-gap: .4em;
+        -webkit-column-gap: .4em;
+    }
+
+    .row .panel {
+        display: inline-block;
+        margin: .5em;
+        padding: 0;
+        width: 98%;
+    }
+</style>
+# endblock
+
 # block header
 <div class="jumbotron">
     <div class="container">
@@ -10,51 +32,18 @@
 # endblock
 
 # block content
-<div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-3">
-        <h2>Heading</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.</p>
-    </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-        <h2>Heading</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.</p>
-    </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-        <h2>Heading</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.</p>
-    </div>
-    <div class="col-sm-6 col-md-12 col-lg-3">
-        <h2>Heading</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.</p>
-    </div>
-</div>
-
-
-<div class="row"  >
-    # for issue in issue_dbs
-    <div class="col-xs-6 col-md-3">
-        <a type="button" data-toggle="collapse" data-target="#{{ issue.key.urlsafe() }}" aria-expanded="false"
-           aria-controls="{{ issue.key.urlsafe() }}" class="thumbnail">
-            # if issue.image != None
-            <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-responsive">
-            # else
-            <h4>{{ issue.key.urlsafe() }}</h4>
-            # endif
-        </a>
-        <div class="collapse" id="{{ issue.key.urlsafe() }}">
-            <div class="well">
-                {{ issue.title }}
-            </div>
+<div class="container">
+    <div class="row" data-isotope='{ "itemSelector": ".panel", "layoutMode": "fitRows" }'>
+        # for issue in issue_dbs
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ issue.title }}</div>
+            <div class="panel-body"><img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-responsive"></div>
         </div>
+        # endfor
     </div>
-    # endfor
 </div>
+# endblock
+
+# block scripts
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 # endblock

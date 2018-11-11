@@ -7,8 +7,8 @@
     }
 
     .row {
-        -moz-column-width: 12em;
-        -webkit-column-width: 12em;
+        -moz-column-width: 192px;
+        -webkit-column-width: 192px;
         -moz-column-gap: .4em;
         -webkit-column-gap: .4em;
     }
@@ -17,6 +17,18 @@
         display: inline-block;
     {#margin: .5em;#}{#padding: 0;#}{#width: 98%;#}
     }
+
+    .row .panel-success {
+        background: #dff0d8;
+        border-color: #39683a;
+    }
+
+    .row .panel .panel-body .img-rounded {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
 </style>
 # endblock
 
@@ -30,27 +42,68 @@
 # endblock
 
 # block content
+# set paneltitle = ["","Questa Settimana","Prossime Settimane"]
 <div class="container">
-    <div class="row">
-        # for issue in issue_dbs
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        # for issue_dbs in weeks:
+        # set invalue = "in"
+        # if loop.index >1
+        # set invalue = ""
+        # endif
+        {#        # if loop.index >1#}
+        {#        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse-{{ loop.index }}"#}
+        {#                aria-expanded="false" aria-controls="collapse-{{ loop.index }}">#}
+        {#            Prossime Settimane#}
+        {#        </button>#}
+        {#        # set collapsevar = "collapse"#}
+        {#        # else#}
+        {#        # set collapsevar = ""#}
+        {#        # endif#}
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">{{ issue.title }}</h4>
-                # if issue.subtitle
-                <h6 class="text-muted">{{ issue.subtitle }}</h6>
-                # endif
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}"
+                       aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                        {{ paneltitle[loop.index] }}
+                    </a>
+                </h4>
             </div>
-            <div class="panel-body">
-                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-responsive">
-                # if issue.reprint
-                <h5 class="text-muted">{{ issue.reprint }}</h5>
-                # endif
-                # if issue.serie
-                <h5 class="text-muted">{{ issue.serie.get().title }}</h5>
-                # endif
-                # if issue.price
-                <h5 class="text-muted">{{ issue.price }}</h5>
-                # endif
+            <div id="collapse{{ loop.index }}" class="panel-collapse collapse {{ invalue }}" role="tabpanel"
+                 aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <div class="row {{ collapsevar }}" id="collapse-{{ loop.index }}">
+                        # for issue in issue_dbs:
+                        # if week_start <= issue.date <= week_end:
+                        # set paneltype = "panel-success"
+                        # else
+                        # set paneltype = "panel-default"
+                        # endif
+                        <div class="panel {{ paneltype }}">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">{{ issue.title }}</h4>
+                                # if issue.subtitle
+                                <h6 class="text-muted">{{ issue.subtitle }}</h6>
+                                # endif
+                            </div>
+                            <div class="panel-body">
+                                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
+                                # if issue.reprint
+                                <h5 class="text-muted">{{ issue.reprint }}</h5>
+                                # endif
+                                # if issue.serie
+                                <h5 class="text-muted">{{ issue.serie.get().title }}</h5>
+                                # endif
+                                # if issue.price
+                                <h5 class="text-muted">{{ issue.price }}</h5>
+                                # endif
+                                # if issue.date
+                                <h6 class="text-muted date" data-time="{{ issue.date }}">{{ issue.date }}</h6>
+                                # endif
+                            </div>
+                        </div>
+                        # endfor
+                    </div>
+                </div>
             </div>
         </div>
         # endfor
@@ -59,5 +112,16 @@
 # endblock
 
 # block scripts
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+{#<script>#}
+{#    $.getScript('//cdn.jsdelivr.net/isotope/1.5.25/jquery.isotope.min.js', function () {#}
+{##}
+{#        /* activate jquery isotope */#}
+{#        $('.row').imagesLoaded(function () {#}
+{#            $('.row').isotope({#}
+{#                itemSelector: '.panel',#}
+{#            });#}
+{#        });#}
+{##}
+{#    });#}
+{#</script>#}
 # endblock

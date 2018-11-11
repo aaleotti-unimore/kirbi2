@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 from model import Issue, Serie
 from flask import Flask
 
-BASE_URL = 'http://comics.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d'
+BASE_URL = 'http://comicss.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d'
 
 MIN_PAGE = 1
 MAX_PAGE = 10

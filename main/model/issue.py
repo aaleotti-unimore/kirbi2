@@ -18,10 +18,10 @@ class Issue(model.Base):
     """
     title = ndb.StringProperty(indexed=True, required=True)
     subtitle = ndb.StringProperty(indexed=False)
-    serie = ndb.KeyProperty(Serie, required=True)
+    serie = ndb.KeyProperty(Serie, required=True, default=ndb.Key('Serie', "One Shot"))
     reprint = ndb.StringProperty(indexed=False)
     date = ndb.DateProperty(indexed=True, default=datetime.today())
-    price = ndb.StringProperty(indexed=False, default="0")
+    price = ndb.StringProperty(indexed=False)
     image = ndb.StringProperty(indexed=False)
     url = ndb.StringProperty(indexed=False, default="#")
     summary = ndb.StringProperty(indexed=False, repeated=True)

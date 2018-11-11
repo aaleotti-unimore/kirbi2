@@ -1,5 +1,9 @@
 # coding: utf-8
+import datetime
 import random
+from datetime import timedelta
+
+from google.appengine.ext import ndb
 
 import flask
 
@@ -13,13 +17,23 @@ from model import Issue
 ###############################################################################
 @app.route('/')
 def welcome():
-    list_query = Issue.query()
-    list_keys = list_query.fetch(keys_only=True)  # maybe put a limit here.
+    today = datetime.date.today()
+    week_start = today - timedelta(days=today.weekday())
+    week_end = week_start + timedelta(days=6)
 
-    list_keys = random.sample(list_keys, 20)
-    issue_dbs = [list_key.get() for list_key in list_keys]
-    # issue_dbs = Issue().query().fetch(limit=10)
-    return flask.render_template('welcome.html', html_class='welcome', issue_dbs=issue_dbs)
+    # list_keys = list_query.fetch(keys_only=True)  # maybe put a limit here.
+    #
+    # list_keys = random.sample(list_keys, 20)
+    # issue_dbs = [list_key.get() for list_key in list_keys]
+
+    current_week = Issue.query(ndb.AND(Issue.date >= week_start),
+                               Issue.date <= week_end).order(-Issue.date).fetch()
+    next_weeks = Issue.query(ndb.AND(Issue.date >= week_end)).order(-Issue.date).fetch()
+    return flask.render_template('welcome.html',
+                                 html_class='welcome',
+                                 weeks=[current_week, next_weeks],
+                                 week_start=week_start,
+                                 week_end=week_end)
 
 
 ###############################################################################

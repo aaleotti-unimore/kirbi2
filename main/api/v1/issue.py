@@ -29,6 +29,12 @@ class PopulateIssuesAPI(flask_restful.Resource):
         issue_dbs, cursors = model.Issue.get_dbs(prev_cursor=True)
         return helpers.make_response(issue_dbs, model.Issue.FIELDS, cursors)
 
+@api_v1.resource('/admin/issues', endpoint='api.admin.issues')
+class IssuesAPI(flask_restful.Resource):
+    @auth.admin_required
+    def get(self):
+        issue_dbs, cursors = model.Issue.get_dbs(prev_cursor=True)
+        return helpers.make_response(issue_dbs, model.Issue.FIELDS, cursors)
 
 @api_v1.resource('/admin/issue/<string:title>/', endpoint='api.admin.issue')
 class IssueAPI(flask_restful.Resource):

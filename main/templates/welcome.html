@@ -86,7 +86,9 @@
                                 # endif
                             </div>
                             <div class="panel-body">
-                                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
+                                <a href="/issue/{{ issue.title }}">
+                                    <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
+                                </a>
                                 # if issue.reprint
                                 <h5 class="text-muted">{{ issue.reprint }}</h5>
                                 # endif

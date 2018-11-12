@@ -1,0 +1,59 @@
+# extends "base.html"
+# block content
+<div class="container">
+    # for item in issues
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
+            <img class="img-responsive img-rounded" src="{{ item.image }}">
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>{{ item.title }}</h2>
+                        {% if item.subtitle %}
+                            <h4 class="text-muted">{{ item.subtitle }}</h4>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="panel-body">
+                    # if item.reprint
+                    <h5 class="text-muted">{{ item.reprint }}</h5>
+                    # endif
+                    # if item.serie
+                    <h5 class="text-muted">{{ item.serie.get().title }}</h5>
+                    # endif
+                    # if item.price
+                    <h5 class="text-muted">{{ item.price }}</h5>
+                    # endif
+                </div>
+                <ul class="list-group">
+                    # for summary in item.summary
+                    <li class="list-group-item">{{ summary }}</li>
+                    # endfor
+                </ul>
+                {#                       <ul class="list-group list-group-flush text-center">#}
+                {#                            <li class="list-group-item">#}
+                {#                                <div class="mx-auto">#}
+                {#                                    <form>#}
+                {##}
+                {#                                        <a class="btn btn-sm btn-outline-primary" href="{{ item.url }}"#}
+                {#                                           role="button">#}
+                {#                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shop#}
+                {#                                            Panini</a>#}
+                {#                                    </form>#}
+                {#                                </div>#}
+                {#                            </li>#}
+                {#                        </ul>#}
+
+
+                <div class="panel-footer">
+                    <h5>{{ item.date.strftime("%d %b %y") }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    # endfor
+</div>
+# endblock

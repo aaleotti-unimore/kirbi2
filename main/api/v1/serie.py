@@ -27,5 +27,5 @@ class SerieTitleAPI(flask_restful.Resource):
 class SerieAPI(flask_restful.Resource):
     @auth.admin_required
     def get(self):
-        serie_dbs, cursors = model.Serie.get_dbs(prev_cursor=True)
-        return helpers.make_response(serie_dbs, model.Issue.FIELDS, cursors)
+        serie_dbs, cursors = model.Serie.get_dbs()
+        return helpers.make_response(serie_dbs, model.Serie.FIELDS, cursors)

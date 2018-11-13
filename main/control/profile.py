@@ -11,7 +11,7 @@ import util
 import task
 
 from main import app
-
+from model import Serie
 
 ###############################################################################
 # Profile View
@@ -20,12 +20,13 @@ from main import app
 @auth.login_required
 def profile():
   user_db = auth.current_user_db()
-
+  series = Serie.query().fetch()
   return flask.render_template(
     'profile/profile.html',
     title=user_db.name,
     html_class='profile-view',
     user_db=user_db,
+    series=series
   )
 
 

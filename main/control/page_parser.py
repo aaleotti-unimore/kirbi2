@@ -15,15 +15,13 @@ import urllib2
 from google.appengine.ext import ndb
 from bs4 import BeautifulSoup
 from model import Issue, Serie
-from flask import Flask
-
+from main import app
 BASE_URL = 'http://comics.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d'
 
 MIN_PAGE = 1
 MAX_PAGE = 10
 MAX_PROCESSES = 2
 
-app = Flask(__name__)
 
 
 class Parser:

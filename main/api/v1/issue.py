@@ -25,9 +25,9 @@ class PopulateIssuesAPI(flask_restful.Resource):
         issues = parser.parse()
         for issue in issues:
             parser.save_issue(issue)
+        issue_dbs = model.Issue.get_dbs()
+        return helpers.make_response(issue_dbs, model.Issue.FIELDS)
 
-        issue_dbs, cursors = model.Issue.get_dbs(prev_cursor=True)
-        return helpers.make_response(issue_dbs, model.Issue.FIELDS, cursors)
 
 @api_v1.resource('/admin/issues', endpoint='api.admin.issues')
 class IssuesAPI(flask_restful.Resource):
@@ -35,6 +35,7 @@ class IssuesAPI(flask_restful.Resource):
     def get(self):
         issue_dbs, cursors = model.Issue.get_dbs(prev_cursor=True)
         return helpers.make_response(issue_dbs, model.Issue.FIELDS, cursors)
+
 
 @api_v1.resource('/admin/issue/<string:title>/', endpoint='api.admin.issue')
 class IssueAPI(flask_restful.Resource):

@@ -28,8 +28,8 @@ class User(model.Base):
     verified = ndb.BooleanProperty(default=False)
     token = ndb.StringProperty(default='')
     password_hash = ndb.StringProperty(default='')
-    series_list = ndb.KeyProperty(Serie, repeated=True)
-    purchase_list = ndb.KeyProperty(Issue, repeated=True)
+    series_list = ndb.KeyProperty(repeated=True)
+    purchase_list = ndb.KeyProperty(repeated=True)
 
     def has_permission(self, perm):
         return self.admin or perm in self.permissions

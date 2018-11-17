@@ -6,7 +6,7 @@ from datetime import timedelta
 from google.appengine.ext import ndb
 
 import flask
-
+import auth
 import config
 from main import app
 from model import Issue
@@ -17,6 +17,7 @@ from model import Issue
 ###############################################################################
 @app.route('/')
 def welcome():
+    user_db = auth.current_user_db()
     today = datetime.date.today()
     week_start = today - timedelta(days=today.weekday())
     week_end = week_start + timedelta(days=6)
@@ -25,10 +26,16 @@ def welcome():
     #
     # list_keys = random.sample(list_keys, 20)
     # issue_dbs = [list_key.get() for list_key in list_keys]
+    current_week=[]
+    next_weeks=[]
+    if user_db:
+        # current_week = Issue.query(ndb.AND(Issue.serie.IN(user_db.series_list), ndb.AND(Issue.date >= week_start),
+        #                                    Issue.date <= week_end)).order(-Issue.date).fetch()
+        # next_weeks = Issue.query(Issue.serie.IN(user_db.series_list)).fetch()
+        # print(user_db.series_list)
+        # print(next_weeks)
+        pass
 
-    current_week = Issue.query(ndb.AND(Issue.date >= week_start),
-                               Issue.date <= week_end).order(-Issue.date).fetch()
-    next_weeks = Issue.query(ndb.AND(Issue.date >= week_end)).order(-Issue.date).fetch()
     return flask.render_template('welcome.html',
                                  html_class='welcome',
                                  weeks=[current_week, next_weeks],

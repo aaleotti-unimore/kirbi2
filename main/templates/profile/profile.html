@@ -2,6 +2,10 @@
 # import 'macro/forms.html' as forms
 # import 'macro/utils.html' as utils
 
+# block head
+<link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.css" rel="stylesheet">
+# endblock
+
 # block profile_content
 <h3 title="Username"><span class="fa fa-at fa-fw"></span> {{ user_db.username }}</h3>
 <h3 title="Email">
@@ -17,6 +21,9 @@
     <span class="fa fa-sign-in fa-fw"></span>
     {{ utils.auth_icons(user_db) }}
 </h3>
+# endblock
+
+# block custom_content
 <div class="content">
     <div class="row">
         <div class="col">
@@ -26,15 +33,15 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-inline">
-                        <form action="{{ url_for('add_user_series') }}" method="post"
+                        <form action="{{ url_for('add_user_serie') }}" method="post"
                               class="form-inline"
                               role="form">
-                            <select name="series" data-placeholder="Scegli una Serie..."
+                            <select name="serie" data-placeholder="Scegli una Serie..."
                                     class="    \       chosen-select"
                                     style="max-width:350px;"
                                     tabindex="2" title="selectSeries">
                                 # for serie in series
-                                <option value="{{ serie.key }}">{{ serie.title }}</option>
+                                <option value="{{ serie.title }}">{{ serie.title }}</option>
                                 # endfor
                             </select>
 
@@ -42,28 +49,19 @@
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Aggiungi una Serie</h4>
-                </div>
+
                 <ul class="list-group list-group-flush">
-                    # for serie in current_user.serie
+
+                    # for serie in user_db.series_list
                     <li class="list-group-item">
-                        <form action=/profile/add_series/
-                              method="post"
-                              class="form-horizontal"
+                        <form action="{{ url_for('del_user_serie') }}" method="post"
+                              class="form-inline"
                               role="form">
                             <button class="btn btn-outline-secondary btn-sm" type="submit">
                                 <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                             </button>
-                            &nbsp;&nbsp;{{ serie.title }}
-                            <input name="series" type="hidden" value="{{ series.title }}">
-                            {{ form.csrf_token }}
+                            &nbsp;&nbsp;{{ serie.get().title }}
+                            <input name="serie" type="hidden" value="{{ serie.get().title }}">
                         </form>
                     </li>
                     # endfor

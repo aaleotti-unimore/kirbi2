@@ -14,6 +14,11 @@ indexes:
   properties:
   - name: serie
   - name: date
+
+- kind: Issue
+  properties:
+  - name: serie
+  - name: date
     direction: desc
 
 - kind: User

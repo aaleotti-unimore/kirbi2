@@ -50,40 +50,29 @@
         # if loop.index >1
         # set invalue = ""
         # endif
-        {#        # if loop.index >1#}
-        {#        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse-{{ loop.index }}"#}
-        {#                aria-expanded="false" aria-controls="collapse-{{ loop.index }}">#}
-        {#            Prossime Settimane#}
-        {#        </button>#}
-        {#        # set collapsevar = "collapse"#}
-        {#        # else#}
-        {#        # set collapsevar = ""#}
-        {#        # endif#}
         <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
+                <div class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}"
                        aria-expanded="true" aria-controls="collapse{{ loop.index }}">
-                        {{ paneltitle[loop.index] }}
+                        <h4>{{ paneltitle[loop.index] }}</h4>
                     </a>
-                </h4>
+                </div>
             </div>
             <div id="collapse{{ loop.index }}" class="panel-collapse collapse {{ invalue }}" role="tabpanel"
                  aria-labelledby="headingOne">
                 <div class="panel-body">
-                    <div class="row {{ collapsevar }}" id="collapse-{{ loop.index }}">
+                    <div class="row" id="collapse-{{ loop.index }}">
                         # for issue in issue_dbs:
-                        # if week_start <= issue.date <= week_end:
-                        # set paneltype = "panel-success"
-                        # else
                         # set paneltype = "panel-default"
-                        # endif
                         <div class="panel {{ paneltype }}">
                             <div class="panel-heading">
-                                <h4 class="panel-title">{{ issue.title }}</h4>
-                                # if issue.subtitle
-                                <h6 class="text-muted">{{ issue.subtitle }}</h6>
-                                # endif
+                                <div class="panel-title">
+                                    <h4>{{ issue.title }}</h4>
+                                    # if issue.subtitle
+                                    <h6 class="text-muted">{{ issue.subtitle }}</h6>
+                                    # endif
+                                </div>
                             </div>
                             <div class="panel-body">
                                 <a href="/issue/{{ issue.title }}">

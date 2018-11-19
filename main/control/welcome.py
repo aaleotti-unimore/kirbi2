@@ -30,20 +30,18 @@ def welcome():
     next_weeks = []
     if user_db is not None:
         current_week = Issue.query(
-            # ndb.OR(Issue.key.IN(user_db.purchase_list),
-            #        ndb.AND(Issue.serie.IN(user_db.series_list),
-            #                ndb.AND(Issue.date >= week_start,
-            #                        Issue.date <= week_end)
-            #                )
-            #        )
+            # ndb.AND(Issue.serie.IN(user_db.series_list),
+            #         ndb.AND(Issue.date >= week_start,
+            #                 Issue.date <= week_end)
+            #         )
         ).order(Issue.date).fetch()
+        # if len(user_db.purchase_list) > 0:
+        #     current_week += Issue.query(Issue.key.IN(user_db.purchase_list))
 
         next_weeks = Issue.query(
-            # ndb.OR(Issue.key.IN(user_db.purchase_list),
-            #        ndb.AND(Issue.serie.IN(user_db.series_list),
-            #                Issue.date > week_end
-            #                )
-            #        )
+            # ndb.AND(Issue.serie.IN(user_db.series_list),
+            #         Issue.date > week_end
+            #         )
         ).order(Issue.date).fetch()
 
     return flask.render_template('welcome.html',

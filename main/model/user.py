@@ -29,7 +29,8 @@ class User(model.Base):
     token = ndb.StringProperty(default='')
     password_hash = ndb.StringProperty(default='')
     series_list = ndb.KeyProperty(repeated=True)
-    purchase_list = ndb.KeyProperty(repeated=True)
+    buy_list = ndb.KeyProperty(repeated=True)
+    purchased_list = ndb.KeyProperty(repeated=True)
 
     def has_permission(self, perm):
         return self.admin or perm in self.permissions

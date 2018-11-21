@@ -36,8 +36,8 @@ def welcome():
                                 Issue.date <= week_end)
                         )
             ).order(Issue.date).fetch()
-            if user_db.purchase_list:
-                current_week += Issue.query(Issue.key.IN(user_db.purchase_list))
+            if user_db.buy_list:
+                current_week += Issue.query(Issue.key.IN(user_db.buy_list))
 
             next_weeks = Issue.query(
                 ndb.AND(Issue.serie.IN(user_db.series_list),

@@ -1,20 +1,15 @@
 # coding: utf-8
-from pprint import pprint
-
-from google.appengine.ext import ndb
-
-import flask
-import flask_wtf
-import wtforms
 
 import auth
 import config
+import flask
+import flask_wtf
 import model
-import util
 import task
-
+import util
+import wtforms
 from main import app
-from model import Serie, User
+from model import Serie
 
 
 ###############################################################################
@@ -24,7 +19,6 @@ from model import Serie, User
 @auth.login_required
 def profile():
     user_db = auth.current_user_db()
-    print(user_db)
     series = Serie.query()
     return flask.render_template(
         'profile/profile.html',

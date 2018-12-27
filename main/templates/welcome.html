@@ -23,7 +23,7 @@
         border-color: #39683a;
     }
 
-    .row .panel .panel-body .img-rounded {
+    .row .panel .img-rounded {
         max-width: 100%;
         height: auto;
         display: block;
@@ -44,66 +44,101 @@
 # block content
 # set paneltitle = ["","Questa Settimana","Prossime Settimane"]
 <div class="container">
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        # for issue_dbs in weeks:
-        # set invalue = "in"
-        # if loop.index >1
-        # set invalue = ""
-        # endif
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <div class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}"
-                       aria-expanded="true" aria-controls="collapse{{ loop.index }}">
-                        <h4>{{ paneltitle[loop.index] }}</h4>
-                    </a>
-                </div>
-            </div>
-            <div id="collapse{{ loop.index }}" class="panel-collapse collapse {{ invalue }}" role="tabpanel"
-                 aria-labelledby="headingOne">
-                <div class="panel-body">
-                    <div class="row" id="collapse-{{ loop.index }}">
-                        # for issue in issue_dbs:
-                        # set paneltype = "panel-default"
-                        <div class="panel {{ paneltype }}">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    <h4>{{ issue.title }}</h4>
-                                    # if issue.subtitle
-                                    <h6 class="text-muted">{{ issue.subtitle }}</h6>
-                                    # endif
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <a href="/issue/{{ issue.title }}">
-                                    <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
-                                </a>
-                                # if issue.reprint
-                                <h5 class="text-muted">{{ issue.reprint }}</h5>
-                                # endif
-                                # if issue.serie
-                                <h5 class="text-muted">{{ issue.serie.get().title }}</h5>
-                                # endif
-                                # if issue.price
-                                <h5 class="text-muted">{{ issue.price }}</h5>
-                                # endif
-                                # if issue.date
-                                <h6 class="text-muted date" data-time="{{ issue.date }}">{{ issue.date }}</h6>
-                                # endif
-                                <button id="btn-add-{{ issue.key.id() }}"
-                                        class="btn btn-sm btn-outline-success"
-                                        type="button">
-                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+    # for serie in user_db.series_list
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ serie.get().title }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                # for issue in user_issues
+                # if issue.serie == serie
+                <div class="col">
+                    <div class="panel panel-default">
+
+
+                        <a href="/issue/{{ issue.title }}">
+                            <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
+                        </a>
+                        <div class="panel-body">
+                            <h4>{{ issue.title }}</h4>
+                            <form id="form-{{ serie.get().title }}-{{ loop.index }}" action="{{ url_for('cart_add') }}"
+                                  method="post">
+                                <input type="hidden" name="issue_title" value="{{ issue.title }}">
+                                <button type="submit" form="form-{{ serie.get().title }}-{{ loop.index }}"
+                                        class="btn btn-default">
+                                        <i class="fa fa-fw fa-cart-plus"></i>
                                 </button>
-                            </div>
+                            </form>
                         </div>
-                        # endfor
                     </div>
                 </div>
+                # endif
+                # endfor
             </div>
         </div>
-        # endfor
     </div>
+    # endfor
+    {#    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">#}
+    {#        # for issue_dbs in weeks:#}
+    {#        # set invalue = "in"#}
+    {#        # if loop.index >1#}
+    {#        # set invalue = ""#}
+    {#        # endif#}
+    {#        <div class="panel panel-default">#}
+    {#            <div class="panel-heading" role="tab" id="headingOne">#}
+    {#                <div class="panel-title">#}
+    {#                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}"#}
+    {#                       aria-expanded="true" aria-controls="collapse{{ loop.index }}">#}
+    {#                        <h4>{{ paneltitle[loop.index] }}</h4>#}
+    {#                    </a>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#            <div id="collapse{{ loop.index }}" class="panel-collapse collapse {{ invalue }}" role="tabpanel"#}
+    {#                 aria-labelledby="headingOne">#}
+    {#                <div class="panel-body">#}
+    {#                    <div class="row" id="collapse-{{ loop.index }}">#}
+    {#                        # for issue in issue_dbs:#}
+    {#                        # set paneltype = "panel-default"#}
+    {#                        <div class="panel {{ paneltype }}">#}
+    {#                            <div class="panel-heading">#}
+    {#                                <div class="panel-title">#}
+    {#                                    <h4>{{ issue.title }}</h4>#}
+    {#                                    # if issue.subtitle#}
+    {#                                    <h6 class="text-muted">{{ issue.subtitle }}</h6>#}
+    {#                                    # endif#}
+    {#                                </div>#}
+    {#                            </div>#}
+    {#                            <div class="panel-body">#}
+    {#                                <a href="/issue/{{ issue.title }}">#}
+    {#                                    <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">#}
+    {#                                </a>#}
+    {#                                # if issue.reprint#}
+    {#                                <h5 class="text-muted">{{ issue.reprint }}</h5>#}
+    {#                                # endif#}
+    {#                                # if issue.serie#}
+    {#                                <h5 class="text-muted">{{ issue.serie.get().title }}</h5>#}
+    {#                                # endif#}
+    {#                                # if issue.price#}
+    {#                                <h5 class="text-muted">{{ issue.price }}</h5>#}
+    {#                                # endif#}
+    {#                                # if issue.date#}
+    {#                                <h6 class="text-muted date" data-time="{{ issue.date }}">{{ issue.date }}</h6>#}
+    {#                                # endif#}
+    {#                                <button id="btn-add-{{ issue.key.id() }}"#}
+    {#                                        class="btn btn-sm btn-outline-success"#}
+    {#                                        type="button">#}
+    {#                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>#}
+    {#                                </button>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                        # endfor#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#        # endfor#}
+    {#    </div>#}
 </div>
 # endblock
 

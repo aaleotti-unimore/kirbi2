@@ -26,30 +26,27 @@ def welcome():
     #
     # list_keys = random.sample(list_keys, 20)
     # issue_dbs = [list_key.get() for list_key in list_keys]
-    current_week = []
-    next_weeks = []
+    user_issues = []
     if user_db is not None:
         if user_db.series_list:
-            current_week = Issue.query(
-                ndb.AND(Issue.serie.IN(user_db.series_list),
-                        ndb.AND(Issue.date >= week_start,
-                                Issue.date <= week_end)
-                        )
-            ).order(Issue.date).fetch()
-            if user_db.buy_list:
-                current_week += Issue.query(Issue.key.IN(user_db.buy_list))
-
-            next_weeks = Issue.query(
-                ndb.AND(Issue.serie.IN(user_db.series_list),
-                        Issue.date > week_end
-                        )
-            ).order(Issue.date).fetch()
-
+            for serie in user_db.series_list:
+                serie_5_issues = Issue.query(Issue.serie == serie).order(-Issue.date).fetch(limit=5)
+                user_issues += serie_5_issues
+            # if user_db.buy_list:
+            #     current_week += Issue.query(Issue.key.IN(user_db.buy_list))
+            #
+            # next_weeks = Issue.query(
+            #     ndb.AND(Issue.serie.IN(user_db.series_list),
+            #             Issue.date > week_end
+            #             )
+            # ).order(Issue.date).fetch()
+    # for issue in user_issues:
+    #     print(issue.title.encode())
     return flask.render_template('welcome.html',
                                  html_class='welcome',
-                                 weeks=[current_week, next_weeks],
-                                 week_start=week_start,
-                                 week_end=week_end)
+                                 user_db=user_db,
+                                 user_issues=user_issues,
+                                 )
 
 
 ###############################################################################

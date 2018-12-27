@@ -42,9 +42,7 @@ def del_user_serie():
     :returns: renders user page
     """
     my_user = auth.current_user_db()
-    print("Request form: " + request.form['serie'])
     series_id = ndb.Key(Serie, request.form['serie'])
-    print(series_id)
     if series_id in my_user.series_list:
         my_user.series_list.remove(series_id)
         my_user.put()

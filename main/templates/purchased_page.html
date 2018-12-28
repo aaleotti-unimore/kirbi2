@@ -1,0 +1,33 @@
+# extends "base.html"
+
+# block head
+# include 'bit/custom_panels.html'
+# endblock
+
+# block content
+<div class="row">
+    # for issue in purchased
+    <div class="col">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="/issue/{{ issue.title }}">
+                    <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
+                </a>
+                <h4>{{ issue.title }}</h4>
+                <h6 class="text-muted date" data-time="{{ issue.date }}">{{ issue.date.strftime('%d/%m/%Y') }}</h6>
+                <h5 class="text-muted">{{ issue.price }}</h5>
+                <form id="form-pl-{{ loop.index }}" action="{{ url_for('purchased_list_del') }}"
+                      method="post">
+                    <input type="hidden" name="issue_title" value="{{ issue.title }}">
+                    <button type="submit" form="form-pl-{{ loop.index }}"
+                            class="btn btn-default pull-right">
+                        <i class="fa fa-fw fa-remove"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    # endfor
+</div>
+
+# endblock

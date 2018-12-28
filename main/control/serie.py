@@ -6,8 +6,11 @@ import logging
 from google.appengine.ext import ndb
 
 import auth
-from flask import request
+import flask
+from control import Parser
+from flask import request, abort
 from main import app
+from model import Issue
 from model import Serie
 from profile import profile
 
@@ -46,5 +49,17 @@ def del_user_serie():
     if series_id in my_user.series_list:
         my_user.series_list.remove(series_id)
         my_user.put()
-        app.logger.info("user id:" + str(my_user) + " removed series: " + request.form['serie'])
+        app.logger.debug("user id:" + str(my_user) + " removed series: " + request.form['serie'])
     return profile()
+
+
+@app.route('/serie/<string:title>/', methods=['GET'])
+@auth.login_required
+def serie_page(title):
+    user_db = auth.current_user_db()
+    serie = []
+    if title:
+        serie = Issue.query(Issue.serie == ndb.Key(Serie, title)).order(-Issue.date).fetch()
+    if not serie:
+        abort(404)
+    return flask.render_template('serie_page.html', serie=serie, user_db=user_db)

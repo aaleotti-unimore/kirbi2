@@ -1,4 +1,6 @@
 # extends "base.html"
+
+
 # block content
 <div class="container">
     # for item in issues
@@ -32,13 +34,24 @@
                     <li class="list-group-item">{{ summary }}</li>
                     # endfor
                 </ul>
-                <p></p>
-                <button type="button" class="btn btn-info">
-                    <a href="{{ item.url }}">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        Shop Panini
-                    </a>
-                </button>
+                <form id="form-{{ item.serie.get().title }}-{{ loop.index }}" action="{{ url_for('cart_add') }}"
+                          method="post">
+                <div class="panel-body">
+                    <div class="btn-group">
+                        <a class="btn btn-info" href="{{ item.url }}">
+                            <i class="fa fa-info" aria-hidden="true"></i>
+                            Shop Panini
+                        </a>
+                    </div>
+
+                        <input type="hidden" name="issue_title" value="{{ item.title }}">
+                        <button type="submit" form="form-{{ item.serie.get().title }}-{{ loop.index }}"
+                                class="btn btn-success pull-right">
+                            <span class="fa fa-fw fa-cart-plus"></span>Add To Cart
+                        </button>
+                    </form>
+                </div>
+
                 <p></p>
                 <div class="panel-footer">
                     <h5>{{ item.date.strftime("%d %b %y") }}</h5>

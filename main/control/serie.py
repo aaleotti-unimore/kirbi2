@@ -61,3 +61,19 @@ def serie_page(title):
     if not serie:
         abort(404)
     return flask.render_template('serie_page.html', serie=serie, user_db=user_db)
+
+
+@app.route('/serie/all_series/', methods=['GET'])
+@auth.login_required
+def all_series():
+    user_db = auth.current_user_db()
+    issues = []
+    series = Serie.query().fetch(keys_only=True)
+    if not series:
+        abort(404)
+    for serie in series:
+        serie_5_issues = Issue.query(Issue.serie == serie).order(-Issue.date).fetch(limit=5)
+        issues += serie_5_issues
+
+    return flask.render_template('all_series_page.html', series=series, user_db=user_db, issues=issues)
+

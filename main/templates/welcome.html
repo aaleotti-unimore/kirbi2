@@ -19,7 +19,7 @@
     # for serie in user_db.series_list
     <div class="panel panel-default ">
         <div class="panel-heading">
-            <h3 class="panel-title">{{ serie.get().title }}</h3>
+            <h3 class="panel-title"><a href="{{ url_for('serie_page',title=serie.get().title) }}">{{ serie.get().title }}</a></h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -35,7 +35,7 @@
                     # set panelcolor = "panel-success"
                     # endif
                     <div class="panel {{ panelcolor }}">
-                        <a href="/issue/{{ issue.title }}">
+                        <a href="/issue/{{ issue.title|urlencode }}">
                             <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
                         </a>
                         <div class="panel-body clearfix">
@@ -43,10 +43,10 @@
                             <h6 class="text-muted date"
                                 data-time="{{ issue.date }}">{{ issue.date.strftime('%d/%m/%Y') }}</h6>
 
-                            <form id="form-{{ serie.get().title }}-{{ loop.index }}" action="{{ url_for('cart_add') }}"
+                            <form id="form-{{ issue.title|urlencode }}" action="{{ url_for('cart_add') }}"
                                   method="post">
                                 <input type="hidden" name="issue_title" value="{{ issue.title }}">
-                                <button type="submit" form="form-{{ serie.get().title }}-{{ loop.index }}"
+                                <button type="submit" form="form-{{ issue.title|urlencode }}"
                                         class="btn btn-default pull-right">
                                     <span class="fa fa-fw fa-cart-plus"></span>
                                 </button>

@@ -34,32 +34,38 @@
                     <li class="list-group-item">{{ summary }}</li>
                     # endfor
                 </ul>
-                <form id="form-{{ item.serie.get().title }}-{{ loop.index }}" action="{{ url_for('cart_add') }}"
-                          method="post">
-                <div class="panel-body">
-                    <div class="btn-group">
-                        <a class="btn btn-info" href="{{ item.url }}">
-                            <i class="fa fa-info" aria-hidden="true"></i>
-                            Shop Panini
-                        </a>
-                    </div>
+                <form id="form-{{ item.serie.get().title|urlencode }}-{{ loop.index }}"
+                      action="{{ url_for('cart_add') }}"
+                      method="post">
+                    <input type="hidden" name="issue_title" value="{{ item.title }}">
+                    <div class="text-center">
+                        <div class="panel-body">
+                            <div class="btn-group">
+                                <a class="btn btn-info" href="{{ item.url }}">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                    Shop Panini
+                                </a>
+                                <a class="btn " href="{{ url_for('serie_page',title=item.serie.get().title) }}">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    Show Serie
+                                </a>
+                                <button type="submit" form="form-{{ item.serie.get().title|urlencode }}-{{ loop.index }}"
+                                        class="btn btn-success">
+                                    <span class="fa fa-fw fa-cart-plus"></span>Add To Cart
+                                </button>
+                            </div>
+                        </div>
+                </form>
+            </div>
 
-                        <input type="hidden" name="issue_title" value="{{ item.title }}">
-                        <button type="submit" form="form-{{ item.serie.get().title }}-{{ loop.index }}"
-                                class="btn btn-success pull-right">
-                            <span class="fa fa-fw fa-cart-plus"></span>Add To Cart
-                        </button>
-                    </form>
-                </div>
-
-                <p></p>
-                <div class="panel-footer">
-                    <h5>{{ item.date.strftime("%d %b %y") }}</h5>
-                </div>
+            <p></p>
+            <div class="panel-footer">
+                <h5>{{ item.date.strftime("%d %b %y") }}</h5>
             </div>
         </div>
     </div>
-    <br><br>
-    # endfor
 </div>
+<br><br>
+# endfor
+
 # endblock

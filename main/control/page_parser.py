@@ -16,12 +16,12 @@ from google.appengine.ext import ndb
 from bs4 import BeautifulSoup
 from model import Issue, Serie
 from main import app
+
 BASE_URL = 'http://comics.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d'
 
 MIN_PAGE = 1
-MAX_PAGE = 7
+MAX_PAGE = 10
 MAX_PROCESSES = 2
-
 
 
 class Parser:
@@ -155,7 +155,7 @@ class Parser:
         issue = Issue(id=item['title'])
         issue.title = item['title']
         if 'subtitle' in item:
-            if any(word in item['subtitle'] for word in ["variant", "Variant"]):
+            if any(word in item['subtitle'].split() for word in ["variant", "Variant"]):
                 issue.key = ndb.Key(Issue, item['title'] + " variant")
                 app.logger.debug("found variant, new issue id is " + item['title'] + " variant")
             issue.subtitle = item['subtitle']
@@ -185,7 +185,7 @@ class Parser:
         else:
             issue.image = item['image'].replace('small_image/200x', 'image')
 
-        issue.put_async()
+        issue.put()
         app.logger.debug("issue " + issue.title + " saved")
 
     def delete_issue(self, items):

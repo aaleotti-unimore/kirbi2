@@ -5,12 +5,14 @@
 # endblock
 
 # block content
+<h2>Cart <i class="fa fa-fw fa-shopping-cart"></i></h2>
+<p></p>
 # for row in cart|batch(5)
 <div class="row">
     # for issue in row
     <div class="col">
         <div class="panel panel-default">
-            <a href="/issue/{{ issue.title }}">
+            <a href="{{ url_for('issue_page',title=issue.title|urlencode) }}">
                 <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
             </a>
             <div class="panel-body">
@@ -18,18 +20,19 @@
                 <h4>{{ issue.title }}</h4>
                 <h6 class="text-muted date" data-time="{{ issue.date }}">{{ issue.date.strftime('%d/%m/%Y') }}</h6>
 
-                <form id="form-buy-{{ loop.index }}" action="{{ url_for('cart_del') }}"
+                <form id="form-buy-{{ issue.title|urlencode }}" action="{{ url_for('cart_del') }}"
                       method="post">
                     <input type="hidden" name="issue_title" value="{{ issue.title }}">
-                    <button type="submit" form="form-buy-{{ loop.index }}"
+                    <button type="submit" form="form-buy-{{ issue.title|urlencode }}"
                             class="btn btn-default pull-right">
                         <i class="fa fa-fw fa-remove"></i>
                     </button>
                 </form>
-                <form id="form-del-{{ loop.index }}" action="{{ url_for('purchased_list_add') }}"
+                <p></p>
+                <form id="form-del-{{ issue.title|urlencode }}" action="{{ url_for('purchased_list_add') }}"
                       method="post">
                     <input type="hidden" name="issue_title" value="{{ issue.title }}">
-                    <button type="submit" form="form-del-{{ loop.index }}"
+                    <button type="submit" form="form-del-{{ issue.title|urlencode }}"
                             class="btn btn-default pull-right">
                         <i class="fa fa-fw fa-dollar"></i>
                     </button>

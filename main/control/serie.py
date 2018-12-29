@@ -7,12 +7,10 @@ from google.appengine.ext import ndb
 
 import auth
 import flask
-from control import Parser
 from flask import request, abort
 from main import app
 from model import Issue
 from model import Serie
-from profile import profile
 
 app.logger.setLevel(logging.DEBUG)
 
@@ -22,9 +20,9 @@ app.logger.setLevel(logging.DEBUG)
 def add_user_serie():
     """
     Adds requested series in the user's series
-
-    :returns: renders the user page
     """
+    if not request.form['serie']:
+        abort(404)
     my_user = auth.current_user_db()
     series_id = ndb.Key(Serie, request.form['serie'])
     if series_id not in my_user.series_list:
@@ -33,7 +31,7 @@ def add_user_serie():
         app.logger.debug("user %s added serie: %s" % (str(my_user.name), request.form['serie']))
     else:
         app.logger.debug("%s already in user serie list" % request.form['serie'])
-    return profile()
+    return flask.redirect(flask.url_for('profile'))
 
 
 @app.route('/profile/del_user_serie/', methods=['POST'])
@@ -41,16 +39,16 @@ def add_user_serie():
 def del_user_serie():
     """
     remove requested series from the user's series list
-
-    :returns: renders user page
     """
+    if not request.form['serie']:
+        abort(404)
     my_user = auth.current_user_db()
     series_id = ndb.Key(Serie, request.form['serie'])
     if series_id in my_user.series_list:
         my_user.series_list.remove(series_id)
         my_user.put()
         app.logger.debug("user id:" + str(my_user) + " removed series: " + request.form['serie'])
-    return profile()
+    return flask.redirect(flask.url_for('profile'))
 
 
 @app.route('/serie/<string:title>/', methods=['GET'])

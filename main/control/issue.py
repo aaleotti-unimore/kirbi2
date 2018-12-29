@@ -1,4 +1,6 @@
 # coding: utf-8
+import urllib
+
 import auth
 import flask
 from control import Parser
@@ -9,6 +11,7 @@ from model import Issue
 
 @app.route('/issue/<string:title>/')
 def issue_page(title):
+    title = urllib.unquote_plus(title)
     issues = Issue.query(Issue.title == title).fetch()
     for issue in issues:
         if len(issue.summary) == 0:

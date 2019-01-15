@@ -1,11 +1,6 @@
-bs4
-blinker
-PyJWT
-unidecode
-flask_wtf
-flask_login
-flask_oauthlib
-flask_restful
-webargs
-flask
-lxml
+certifi==2018.11.29
+chardet==3.0.4
+idna==2.8
+nose==1.3.7
+requests==2.21.0
+urllib3==1.24.1

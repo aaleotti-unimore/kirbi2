@@ -69,3 +69,16 @@ def sitemap():
 def warmup():
     # TODO: put your warmup code here
     return 'success'
+
+
+import urllib
+from markupsafe import Markup
+
+
+@app.template_filter('urlencode')
+def urlencode_filter(s):
+    if type(s) == 'Markup':
+        s = s.unescape()
+    s = s.encode('utf8')
+    s = urllib.quote_plus(s)
+    return Markup(s)

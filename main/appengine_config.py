@@ -21,7 +21,7 @@ from path_util import sys_path_insert
 tempfile.SpooledTemporaryFile = tempfile.TemporaryFile
 
 if os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Engine'):
-  sys_path_insert('lib.zip')
+  pass
 else:
   if os.name == 'nt':
     os.name = None
@@ -35,7 +35,7 @@ else:
   runtime.stubs.FakeFile._skip_files = re_
   sys_path_insert('lib')
 
-sys_path_insert('libx')
+sys_path_insert('lib')
 
 
 

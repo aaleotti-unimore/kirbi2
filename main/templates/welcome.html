@@ -15,63 +15,51 @@
 
 
 # block content
-<div class="container clearfix">
-    # for serie in user_db.series_list
-    <div class="panel panel-default ">
-        <div class="panel-heading">
-            <h3 class="panel-title"><a
-                    href="{{ url_for('serie_page',title=serie.get().title) }}">{{ serie.get().title }}</a></h3>
-        </div>
-        <div class="panel-body">
-            <div class="row gutter-2">
-                # for issue in user_issues
-                # set panelcolor = "panel-default"
-                # if issue.serie == serie
+# for serie in user_db.series_list
+<h2>
+    <a href="{{ url_for('serie_page',title=serie.get().title) }}">{{ serie.get().title }}</a>
+</h2>
+<hr>
+<div class="row gutter-2">
+    # for issue in user_issues
+    # set panelcolor = "panel-default"
+    # if issue.serie == serie
 
-                <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
 
-                    # if issue.key in user_db.cart
-                    # set panelcolor = "panel-warning"
-                    # endif
-                    # if issue.key in user_db.purchased_list
-                    # set panelcolor = "panel-success"
-                    # endif
-                    <div class="panel {{ panelcolor }}">
-                        <a href="/issue/{{ issue.title|urlencode }}">
-                            <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded img-responsive">
-                        </a>
-                        <div class="panel-body">
+        # if issue.key in user_db.cart
+        # set panelcolor = "panel-warning"
+        # endif
+        # if issue.key in user_db.purchased_list
+        # set panelcolor = "panel-success"
+        # endif
+        <div class="panel {{ panelcolor }}">
+            <a href="/issue/{{ issue.title|urlencode }}">
+                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded img-responsive">
+            </a>
+            <div class="panel-body">
 
-                            <h4>{{ issue.title }}</h4>
-                            <h6 class="text-muted date"
-                                data-time="{{ issue.date }}">{{ issue.date.strftime('%d/%m/%Y') }}</h6>
+                <h4>{{ issue.title }}</h4>
+                <h6 class="text-muted date"
+                    data-time="{{ issue.date }}">{{ issue.date.strftime('%d/%m/%Y') }}</h6>
 
-                            <form id="form-{{ issue.title|urlencode }}" action="{{ url_for('cart_add') }}"
-                                  method="post">
-                                <input type="hidden" name="issue_title" value="{{ issue.title }}">
-                                <button type="submit" form="form-{{ issue.title|urlencode }}"
-                                        class="btn btn-default pull-right">
-                                    <span class="fa fa-fw fa-cart-plus"></span>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                # endif
-                # endfor
-
+                <form id="form-{{ issue.title|urlencode }}" action="{{ url_for('cart_add') }}"
+                      method="post">
+                    <input type="hidden" name="issue_title" value="{{ issue.title }}">
+                    <button type="submit" form="form-{{ issue.title|urlencode }}"
+                            class="btn btn-default pull-right">
+                        <span class="fa fa-fw fa-cart-plus"></span>
+                    </button>
+                </form>
             </div>
         </div>
-
-        <div class="panel-footer clearfix">
-            <a class="pull-right" href="{{ url_for('serie_page',title=serie.get().title) }}"><h5>Show Full Serie</h5>
-            </a>
-        </div>
-
     </div>
+    # endif
     # endfor
 
 </div>
+# endfor
+
 # endblock
 
 # block scripts

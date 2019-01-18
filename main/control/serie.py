@@ -60,7 +60,7 @@ def serie_page(title):
         serie = Issue.query(Issue.serie == ndb.Key(Serie, title)).order(-Issue.date).fetch()
     if not serie:
         abort(404)
-    return flask.render_template('serie_page.html', serie=serie, user_db=user_db)
+    return flask.render_template('serie_page.html', title=title, serie=serie, user_db=user_db)
 
 
 @app.route('/serie/all_series/', methods=['GET'])

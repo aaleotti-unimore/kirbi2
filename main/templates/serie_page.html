@@ -5,11 +5,10 @@
 # endblock
 
 # block content
-# for row in serie|batch(5)
-<div class="row">
-    # for issue in row
+<div class="row gutter-2">
+    # for issue in serie
     # set panelcolor = "panel-default"
-    <div class="col">
+     <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
         # if issue.key in user_db.cart
         # set panelcolor = "panel-warning"
         # endif
@@ -18,7 +17,7 @@
         # endif
         <div class="panel {{ panelcolor }}">
             <a href="/issue/{{ issue.title }}">
-                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
+                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded img-responsive">
             </a>
             <div class="panel-body clearfix">
                 <h4>{{ issue.title }}</h4>
@@ -35,8 +34,10 @@
             </div>
         </div>
     </div>
+     # if loop.index % 6 == 0
+        <div class="visible-lg-block visible-md-block clearfix"></div>
+    # endif
     # endfor
 </div>
-# endfor
 
 # endblock

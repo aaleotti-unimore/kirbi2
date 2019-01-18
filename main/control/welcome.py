@@ -30,8 +30,8 @@ def welcome():
     if user_db is not None:
         if user_db.series_list:
             for serie in user_db.series_list:
-                serie_5_issues = Issue.query(Issue.serie == serie).order(-Issue.date).fetch(limit=5)
-                user_issues += serie_5_issues
+                serie_6_issues = Issue.query(Issue.serie == serie).order(-Issue.date).fetch(limit=6)
+                user_issues += serie_6_issues
             # if user_db.buy_list:
             #     current_week += Issue.query(Issue.key.IN(user_db.buy_list))
             #

@@ -72,8 +72,8 @@ def all_series():
     if not series:
         abort(404)
     for serie in series:
-        serie_5_issues = Issue.query(Issue.serie == serie).order(-Issue.date).fetch(limit=5)
-        issues += serie_5_issues
+        serie_6_issues = Issue.query(Issue.serie == serie).order(-Issue.date).fetch(limit=6)
+        issues += serie_6_issues
 
     return flask.render_template('all_series_page.html', series=series, user_db=user_db, issues=issues)
 

@@ -20,7 +20,7 @@ from main import app
 BASE_URL = 'http://comics.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d'
 
 MIN_PAGE = 1
-MAX_PAGE = 10
+MAX_PAGE = 15
 MAX_PROCESSES = 2
 
 

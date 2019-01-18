@@ -1,19 +1,19 @@
 # extends "base.html"
 
 # block head
-# include 'bit/custom_panels.html'
+{## include 'bit/custom_panels.html'#}
 # endblock
 
 # block content
 <h2>Cart <i class="fa fa-fw fa-shopping-cart"></i></h2>
 <p></p>
-# for row in cart|batch(5)
+{## for row in cart|batch(5)#}
 <div class="row">
-    # for issue in row
-    <div class="col">
+    # for issue in cart
+    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
         <div class="panel panel-default">
             <a href="{{ url_for('issue_page',title=issue.title|urlencode) }}">
-                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
+                <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded img-responsive">
             </a>
             <div class="panel-body">
 
@@ -40,8 +40,11 @@
             </div>
         </div>
     </div>
+    # if loop.index % 5 == 0
+        <div class="visible-lg-block visible-md-block clearfix"></div>
+    # endif
     # endfor
 </div>
-# endfor
+{## endfor#}
 
 # endblock

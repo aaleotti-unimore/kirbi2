@@ -1,7 +1,7 @@
 # extends "base.html"
 
 # block head
-# include 'bit/custom_panels.html'
+{## include 'bit/custom_panels.html'#}
 # endblock
 
 # block content
@@ -9,12 +9,12 @@
 <p></p>
 <div class="row">
     # for issue in purchased
-    <div class="col">
+    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
         <div class="panel panel-default">
-            <div class="panel-body">
-                <a href="{{ url_for('issue_page',title=issue.title|urlencode) }}">
-                    <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded">
+            <a href="{{ url_for('issue_page',title=issue.title|urlencode) }}">
+                    <img src="{{ issue.image }}" alt="{{ issue.title }}" class="img-rounded img-responsive">
                 </a>
+            <div class="panel-body">
                 <h4>{{ issue.title }}</h4>
                 <h6 class="text-muted date" data-time="{{ issue.date }}">{{ issue.date.strftime('%d/%m/%Y') }}</h6>
                 <h5 class="text-muted">{{ issue.price }}</h5>
@@ -29,7 +29,11 @@
             </div>
         </div>
     </div>
+       # if loop.index % 5 == 0
+        <div class="visible-lg-block visible-md-block clearfix"></div>
+    # endif
     # endfor
+
 </div>
 
 # endblock

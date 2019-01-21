@@ -20,7 +20,7 @@ from main import app
 BASE_URL = 'http://comics.panini.it/store/pub_ita_it/magazines/cmc-m.html?limit=25&p=%d'
 
 MIN_PAGE = 1
-MAX_PAGE = 15
+MAX_PAGE = 10
 MAX_PROCESSES = 2
 
 
@@ -62,16 +62,17 @@ class Parser:
         issues = []
 
         try:
-            data = urllib2.urlopen(url).read()
+            data = urllib2.urlopen(url, timeout=45).read()
             app.logger.debug('Fetched %s from %s' % (len(data), url))
             soup = BeautifulSoup(data, 'html.parser')
             issues = soup.find_all('div', attrs={'class': "list-group-item"})  # list of all found comics issues
         except urllib2.HTTPError as e:
-            app.logger.error('HTTPError = ' + str(e.code))
+            app.logger.error('HTTPError: ' + str(e.code))
         except urllib2.URLError as e:
-            app.logger.error('URLError = ' + str(e.reason))
+            app.logger.error('URLError: ' + str(e.reason))
         except httplib.HTTPException as e:
-            app.logger.error('HTTPException' + str(e))
+            app.logger.error('HTTPException: ' + str(e))
+
 
         for issue in issues:
             issue_parsed_data = {}
@@ -185,7 +186,7 @@ class Parser:
         else:
             issue.image = item['image'].replace('small_image/200x', 'image')
 
-        issue.put()
+        issue.put_async()
         app.logger.debug("issue " + issue.title + " saved")
 
     def delete_issue(self, items):

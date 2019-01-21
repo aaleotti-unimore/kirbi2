@@ -1,0 +1,8 @@
+cron:
+- description: "weekly update"
+  url: /api/v1/admin/weekly_update/
+  schedule: every monday 05:00
+  timezone: Europe/Rome
+  retry_parameters:
+    min_backoff_seconds: 30
+    max_doublings: 3

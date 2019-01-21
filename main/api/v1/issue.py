@@ -29,6 +29,20 @@ class PopulateIssuesAPI(flask_restful.Resource):
         return helpers.make_response(issue_dbs, model.Issue.FIELDS, cursors)
 
 
+@api_v1.resource('/admin/weekly_update/', endpoint='api.admin.weekly_update')
+class WeeklyUpdateAPI(flask_restful.Resource):
+    def get(self):
+
+        if ('X-Appengine-Cron' in flask.request.headers) & (flask.request.headers['X-Appengine-Cron'] == 'true'):
+
+            parser = Parser()
+            issues = parser.parse()
+            for issue in issues:
+                parser.save_issue(issue)
+        else:
+            return helpers.Api().unauthorized(flask.make_response())
+
+
 @api_v1.resource('/admin/issues', endpoint='api.admin.issues')
 class IssuesAPI(flask_restful.Resource):
     @auth.admin_required
